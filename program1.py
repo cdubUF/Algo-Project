@@ -33,8 +33,6 @@ def program1(n: int, k: int, costs: List[int]) -> Tuple[int, List[int]]:
 
     return total_cost, visited_panels
 
-    return 0, [1, 2, 3] # replace with your code
-
 
 if __name__ == '__main__':
     n, k = map(int, input().split())
