@@ -14,11 +14,35 @@ def program3(n: int, k: int, costs: List[int]) -> Tuple[int, List[int]]:
     int:  minimum total energy cost
     List[int]: the indices of the visited panels in increasing order(1-indexed, including n and excluding 0)
     """
-    ############################
-    # Add your code here
-    ############################
+    # Find the cheapest route starting from a given position
+    def solve(position):
+        # If we reached panel n, there is no more cost
+        if position == n:
+            return 0, []
 
-    return 0, [1, 2, 3] # replace with your code
+        best_cost = float("inf")
+        best_route = []
+
+        # Try every possible next jump
+        last_panel = min(position + k, n)
+
+        for next_panel in range(position + 1, last_panel + 1):
+
+            # Find the best route after landing on next_panel
+            remaining_cost, remaining_route = solve(next_panel)
+
+            # Add the cost of landing on this panel
+            total_cost = costs[next_panel - 1] + remaining_cost
+
+            # Save this route if it is cheaper
+            if total_cost < best_cost:
+                best_cost = total_cost
+                best_route = [next_panel] + remaining_route
+
+        return best_cost, best_route
+
+    # Start from position 0
+    return solve(0)
 
 
 if __name__ == '__main__':
