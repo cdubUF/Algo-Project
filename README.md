@@ -1,9 +1,8 @@
 # Algo Project
 
-This repository contains two greedy solutions for the panel-jumping problem and
-the scripts used to generate the submitted performance plots. The instructions
-below start from a fresh clone and reproduce the correctness checks and timing
-results.
+This repository contains the specialized greedy solutions and four general-case
+solutions for the panel-jumping problem, together with reproducible correctness
+checks and performance scripts.
 
 ## Requirements
 
@@ -58,8 +57,14 @@ output is:
 10
 ```
 
-`main.py` is also available as an interactive menu that lets you select either
-program:
+Programs 3, 4A, 4B, and 5 use the same input and output contract. Program 3 is
+an exhaustive recursive reference for small inputs. Program 4A is top-down
+memoized dynamic programming, Program 4B is bottom-up dynamic programming, and
+Program 5 uses a monotonic deque for Theta(n) time. Program 4A raises Python's
+recursion limit when necessary because a valid dependency chain can contain all
+`n` panels.
+
+`main.py` is also available as an interactive menu for Programs 1 and 2:
 
 ```bash
 python main.py
@@ -73,9 +78,13 @@ From the repository root, run:
 python -m unittest discover -s tests -v
 ```
 
-The suite checks Program 2 against an independent exhaustive solver on small
-inputs, checks all committed generated S2 datasets, covers edge cases, and
-verifies the command-line output contract.
+The suite checks Programs 3, 4A, 4B, and 5 against an independent dynamic
+programming oracle on assignment examples, boundary cases, structured cost
+patterns, and randomized small inputs. The random seeds are `4533` and
+`20261109`. It validates the first jump from position 0, every later jump,
+strictly increasing route indices, final arrival at `n`, and agreement between
+reported energy and visited-panel costs. Program 3 is used only on small inputs.
+Every general-case script is also exercised through standard input/output.
 
 The committed inputs in `tests/generated/` are sufficient to run the tests. To
 recreate those deterministic S1 and S2 files before testing, run:
