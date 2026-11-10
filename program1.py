@@ -18,26 +18,33 @@ def program1(n: int, k: int, costs: List[int]) -> Tuple[int, List[int]]:
     visited_panels = []
     current_position = 0
 
-    # Greedily jump as far forward as possible at each step.
-    # If fewer than k positions remain, jump directly to panel n.
+    # Keep jumping until we reach the last panel
     while current_position < n:
+
+        # Jump as far as possible without going past n
         next_position = min(current_position + k, n)
 
         # Save the selected panel.
         visited_panels.append(next_position)
 
-        # Panel numbers are 1-indexed, while the costs list is 0-indexed.
+        # Add the cost of landing on this panel
         total_cost += costs[next_position - 1]
 
+        # Move to the new panel
         current_position = next_position
 
     return total_cost, visited_panels
 
 
 if __name__ == '__main__':
+
+    # Read n and k
     n, k = map(int, input().split())
+
+    # Read the panel costs
     costs = list(map(int, input().split()))
 
+    # Run Program 1
     m, indices = program1(n, k, costs)
 
     print(m)
