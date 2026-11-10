@@ -14,6 +14,11 @@ def program3(n: int, k: int, costs: List[int]) -> Tuple[int, List[int]]:
     int:  minimum total energy cost
     List[int]: the indices of the visited panels in increasing order(1-indexed, including n and excluding 0)
     """
+    # If k = 1, the robot has to visit every panel
+    # Handle this directly to avoid deep recursion
+    if k == 1:
+        return sum(costs), list(range(1, n + 1))
+
     # Find the cheapest route starting from a given position
     def solve(position):
         # If we reached panel n, there is no more cost

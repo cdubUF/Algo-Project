@@ -1,4 +1,3 @@
-import sys
 from functools import lru_cache
 from typing import List, Tuple
 
@@ -9,11 +8,7 @@ def program4A(n: int, k: int, costs: List[int]) -> Tuple[int, List[int]]:
     ``minimum(i)`` is the minimum energy needed to land on panel ``i``.
     The predecessor table records the choice used to recover the route.
     """
-    # A valid dependency chain can contain every panel when k == 1. 
-    required_limit = n + 100
-    if required_limit > sys.getrecursionlimit():
-        sys.setrecursionlimit(required_limit)
-
+    
     predecessor = [-1] * (n + 1)
 
     @lru_cache(maxsize=None)
@@ -27,6 +22,10 @@ def program4A(n: int, k: int, costs: List[int]) -> Tuple[int, List[int]]:
         )
         predecessor[panel] = best_previous
         return minimum(best_previous) + costs[panel - 1]
+
+    # Calculate values in smaller groups to avoid deep recursion
+    for checkpoint in range(100, n, 100):
+        minimum(checkpoint)
 
     energy = minimum(n)
 

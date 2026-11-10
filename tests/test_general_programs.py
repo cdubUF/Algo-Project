@@ -4,13 +4,14 @@ import sys
 import unittest
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
 from program3 import program3
 from program4A import program4A
 from program4B import program4B
 from program5 import program5
 
-
-ROOT = Path(__file__).resolve().parents[1]
 PROGRAMS = (program3, program4A, program4B, program5)
 SEEDS = (4533, 20261109)
 
@@ -144,6 +145,27 @@ class GeneralProgramTests(unittest.TestCase):
             self.assertEqual(count, len(route))
             assert_valid_route(self, 4, 2, [1, 100, 2, 1], (energy, route))
             self.assertEqual(energy, 4)
+    
+    def test_long_forced_route(self):
+        n = 1000
+        k = 1
+        costs = [1] * n
+
+        self.check_case(
+            n, k, costs,
+            include_program3=True
+        )
+
+
+    def test_long_small_k_for_dp(self):
+        n = 5000
+        k = 2
+        costs = [1] * n
+
+        self.check_case(
+            n, k, costs,
+            include_program3=False
+        )
 
 
 if __name__ == "__main__":
